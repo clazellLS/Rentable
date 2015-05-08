@@ -1,14 +1,15 @@
 /// <reference path="typings/node/node.d.ts"/>
 var express = require('express');
+var pg = require('pg');
 var app = express();
 
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+  res.render('index.jade');
 });
 
-var pg = require('pg');
-
-
+app.get('/ar', function (req, res) {
+  res.send('ar!');
+});
 
 var server = app.listen(3000, function () {
 
@@ -17,16 +18,26 @@ var server = app.listen(3000, function () {
 
   console.log('Example app listening at http://%s:%s', host, port);
   
-  pg.connect(process.env.DATABASE_URL, function(err, client) {
-    if (err) {
-      throw err;
-    }else{
-  var query = client.query('SELECT * FROM your_table');
+  var client = new pg.Client({
+    user: "jauorvudzcscgc",
+    password: "fO-nhI1ooxaSmakEDm9T_3C_Tl",
+    database: "da10a1kv8r1ric",
+    port: 5432,
+    host: "ec2-23-21-96-129.compute-1.amazonaws.com",
+    ssl: true
+}); 
+
+client.connect( function(err, client) {
+    console.log(err);
+
+   var query = client.query('SELECT * FROM fresh_jams');
+  
 
   query.on('row', function(row) {
     console.log(JSON.stringify(row));
   });
-  }
+  
 });
+
 
 });
