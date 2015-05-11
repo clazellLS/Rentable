@@ -1,0 +1,26 @@
+extends layout
+
+block content
+	h1= title
+	p Welcome to Wonders
+		#fb-root
+		script(src='http://connect.facebook.net/en_US/all.js')
+		script(type='text/javascript').
+			FB.init({ appId:'1391236504538178' });
+			FB.getLoginStatus(handleSessionResponse);
+			var login = function() {
+			FB.login(handleSessionResponse);
+			};
+			var logout = function() {
+			FB.logout(handleSessionResponse);
+			};
+			function handleSessionResponse() {
+			FB.api('/me', function(response) {
+			console.log(response);
+			$('#user-info').html(response.id + ' - ' + response.name);
+			});
+			}
+	button#login Login
+
+	
+	
